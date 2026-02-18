@@ -1,0 +1,50 @@
+<!doctype html>
+<head>
+    <title>Notes</title>
+</head>
+
+<body>
+    <h1>Notes</h1>
+    <br>
+    <label for="content">New Note:</label>
+    <form action="/add" method="POST">
+        <textarea id="content" name="content" rows="5" cols="33" placeholder="Type in your note here" autofocus>
+        </textarea>
+        <button type="Submit">Submit</button>
+    </form>
+
+    {% if notes %}
+    <table>
+        <thead>
+            <th>#</th>
+            <th>Note</th>
+            <th>Modify</th>
+            <th>Delete</th>
+        </thead>
+
+        {% for note in notes %}
+            {% if note.id == editing_id|int %}
+            <tbody>
+                <td>{{note.id}}</td>
+                <td><form method="POST" action="/save">
+                    <textarea id="content" name="content" rows="5" cols="33">{{ note.content }}</textarea>
+                    <input type="hidden" id="note_id" name="note_id" value="{{ note.id }}">
+                    <button type="Submit" name="submit" value="Save">Save</button>
+                    <button type="Submit" name="submit" value="Cancel">Cancel</button>
+                </form></td>
+            </tbody>
+            {% else %}
+            <tbody>
+                <td>{{note.id}}</td>
+                <td>{{note.content}}</td>
+                <td><a href="/?edit={{note.id}}" type="button">Edit</a></td>
+                <td><a href="/delete/{{note.id}}" type="button">Delete</a></td>
+            </tbody>
+            {% endif %}
+        {% endfor %}
+    </table>
+    {% else %}
+        <p>No notes found</p>
+    {% endif %}
+</body>
+</html>
