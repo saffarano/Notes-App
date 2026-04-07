@@ -20,6 +20,6 @@ Simple CRUD notes application that uses Flask and SQLAlchemy. Users are able to 
 - python notesapp.py
 
 #Screenshots:
-![Home Page, with Notes](images/Notes%20Homepage.png)
-![Editing Note](images/Notes%20Edit.png)
-![Deleted Note](images/Note%20Deleted.png)
+![Home Page, with Notes](images/Notes Homepage.png)
+![Editing Note](images/Notes Edit.png)
+![Deleted Note](images/Note Deleted.png)
