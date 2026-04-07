@@ -12,3 +12,9 @@ Simple CRUD notes application that uses Flask and SQLAlchemy. Users are able to 
 - Read Notes
 - Update (Modify) Notes
 - Delete Notes
+
+#How to run:
+- python -m venv venv
+- source venv/bin/activate   # or venv\Scripts\activate on Windows
+- pip install -r requirements.txt
+- python notesapp.py
