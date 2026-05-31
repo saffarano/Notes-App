@@ -26,10 +26,24 @@ Simple CRUD notes application that uses Flask and SQLAlchemy. Users are able to 
 - python notesapp.py
 
 #Screenshots:
-![Home Page](images/Notes_Homepage.png)
-![Editing Note](images/Notes_Edit.png)
-![Deleted Note](images/Note_Deleted.png)
-![New Game](images/hangeman_new.png)
-![Gameplay](images/hangman_gameplay.png)
-![Win Game](images/hangman_win.png)
-![Lose Game](images/hangman_lose.png)
+
+- Home Page:
+![Home Page](https://github.com/saffarano/Notes-App/blob/main/Images/Notes_Homepage.png)
+
+- Editing Note:
+![Editing Note](https://github.com/saffarano/Notes-App/blob/main/Images/Notes_Edit.png)
+
+- Deleted Note:
+![Deleted Note](https://github.com/saffarano/Notes-App/blob/main/Images/Note_Deleted.png)
+
+- New Hangman Game:
+![New Game](https://github.com/saffarano/Notes-App/blob/main/Images/hangman_new.png)
+
+- Hangman Gameplay:
+![Gameplay](https://github.com/saffarano/Notes-App/blob/main/Images/hangman_gameplay.png)
+
+- Won Hangman Game:
+![Win Game](https://github.com/saffarano/Notes-App/blob/main/Images/hangman_win.png)
+
+- Lost Hangman Game:
+![Lose Game](https://github.com/saffarano/Notes-App/blob/main/Images/hangman_lose.png)
