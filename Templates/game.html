@@ -1,0 +1,70 @@
+<!doctype html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!--<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css"> -->
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Hangman</title>
+</head>
+
+<body>
+    <a href="/" class="button">Home</a>
+    <h1>Play Hangman!</h1>
+    <h2>How to play:</h2>
+    <h3>Click "Start new game" and guess letters in the word. You have 5 wrong guesses before a game over. Good Luck!</h3>
+    <a href="/new_game" class="button">New Game</a>
+
+    <table id="game_table">
+        <tr>
+            <th id="game_th">Word Guessed:</th>
+            <th id="game_th">Letters Guessed:</th>
+            <th id="game_th">Lives:</th>
+        </tr>
+        <tbody>
+            <td id="game_td">{{ guess_word }}</td>
+            <td id="game_td">{% if guess_letters %}
+                {{ guess_letters|join(', ') }}
+                {% endif %}</td>
+            <td id="game_td" class="lives">
+                {% for i in range(5) %}
+                    {% if i < wrong_guesses %}
+                        <i class="fa fa-star" aria-hidden="true"></i>
+                    {% else %}
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tbody>
+    </table>
+    <br>
+    <br>
+
+{% if status=="Win" %}
+<p>Congratulations! You won the game, your word was: {{ rand_word }}
+    <br>Press 'New Game' above to play again.
+</p>
+{% elif status=="Lose" %}
+<p>Womp womp, sorry, you lost the game. Your word was: {{ rand_word }}
+    <br>Press 'New Game' above to play again.
+</p>
+{% elif guess_word %}
+    {% if status=="Invalid" %}
+    <p>You submitted an invalid character or multiple letters.
+        <br>Please only submit 1 letter at a time
+    </p>
+    {% elif status=="Duplicate" %}
+    <p>Hey! You already submitted that letter, see above? I remember the
+        <br>letters for you even!
+    </p>
+    {% endif %}
+
+    <form action="/guess" method="POST">
+        <label>Enter in a letter:</label>
+        <input type="text" id="letter" name="letter">
+        <br>
+        <button type="Submit">Submit</button>
+    </form>
+{% endif %}
+
+</body>
+</html>

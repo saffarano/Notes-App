@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from flask_sqlalchemy import SQLAlchemy
+from hangman import Hangman
+
 
 
 app = Flask(__name__)
 app.debug = True
+app.secret_key = "SupersEcretkeYForPLAyingHanGMan"
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False  #avoids a warning
 db = SQLAlchemy()  #creates db instance
@@ -68,6 +71,61 @@ def delete_note(id):
 
     return redirect('/')
 
+# Routes for Hangman game - uses game.html template page
+@app.route("/game_page", methods=['GET', 'POST'])
+def game_page():
+    if "guess_word" in session:
+        guess_word = session['guess_word']
+        wrong_guesses = session['wrong_guesses']
+        guess_letters = session['guess_letters']
+    else:
+        guess_word = None
+        wrong_guesses = 0
+        guess_letters = []
+    return render_template("game.html", guess_word=guess_word, wrong_guesses=wrong_guesses, guess_letters=guess_letters)
+
+@app.route("/new_game", methods=['GET', 'POST'])
+def new_game():
+    #starts new game of hangman
+    game = Hangman()
+    #start sessions with variables needed for duration of game
+
+    rand_word, guess_word, wrong_guesses, guess_letters = game.gameStart()
+    session['rand_word'] = rand_word
+    session['guess_word'] = guess_word
+    session['wrong_guesses'] = wrong_guesses
+    session['guess_letters'] = guess_letters
+
+    return render_template("game.html", guess_word=guess_word, wrong_guesses=wrong_guesses, guess_letters=guess_letters)
+
+# Receives guess from user, passes to hangman game to update
+# game components, stores sessoins, updates status to user
+@app.route("/guess", methods=['GET', 'POST'])
+def guess_letter():
+    # initialize gamestate in new route
+    game = Hangman()
+    # Get guess from user
+    letter = request.form["letter"]
+
+    # Pull variables from session
+    rand_word = session['rand_word']
+    guess_word = session['guess_word']
+    wrong_guesses = session['wrong_guesses']
+    guess_letters = session['guess_letters']
+
+    # status will be used to determine msg sent to user
+    status = None
+
+    # send components to Hangman to compare / update
+    rand_word, guess_word, wrong_guesses, guess_letters, status = game.playGame(letter, rand_word, guess_word, wrong_guesses, guess_letters)
+
+    # update session variables
+    #session['rand_word'] = rand_word
+    session['guess_word'] = guess_word
+    session['wrong_guesses'] = wrong_guesses
+    session['guess_letters'] = guess_letters
+
+    return render_template("game.html", rand_word=rand_word, guess_word=guess_word, wrong_guesses=wrong_guesses, guess_letters=guess_letters, status=status)
 
 if __name__ == "__main__":
     app.run(debug=True)
